@@ -25,6 +25,14 @@ with st.form("form_input"):
     PM25 = st.number_input("PM2.5 (µg/m³)", min_value=0.0, step=0.1)
     Temperature = st.number_input("Temperature (°C)", min_value=-10.0, step=0.1)
     Humidity = st.number_input("Humidity (%)", min_value=0.0, max_value=100.0, step=1.0)
+if submit:
+    input_data = np.array([[CO, NO2, SO2, O3, PM10, PM25, Temperature, Humidity]])
+
+    # Tambahan debug
+    st.write("Shape input:", input_data.shape)
+    st.write("Model expects:", model.n_features_in_)
+
+    pred = model.predict(input_data)[0]
 
     submit = st.form_submit_button("Prediksi")
 
