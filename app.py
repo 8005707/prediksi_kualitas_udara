@@ -16,20 +16,23 @@ st.write("Masukkan data sensor untuk prediksi kualitas udara.")
 
 # Form input manual
 with st.form("form_input"):
-    CO = st.number_input("CO (ppm)", min_value=0.0, step=0.1)
-    NO2 = st.number_input("NO2 (µg/m³)", min_value=0.0, step=0.1)
-    SO2 = st.number_input("SO2 (µg/m³)", min_value=0.0, step=0.1)
-    O3 = st.number_input("O3 (µg/m³)", min_value=0.0, step=0.1)
-    PM10 = st.number_input("PM10 (µg/m³)", min_value=0.0, step=0.1)
-    PM25 = st.number_input("PM2.5 (µg/m³)", min_value=0.0, step=0.1)
+    CO = st.number_input("CO (ppm)")
+NO2 = st.number_input("NO2")
+SO2 = st.number_input("SO2")
+O3 = st.number_input("O3")
+PM10 = st.number_input("PM10")
+PM25 = st.number_input("PM2.5")
+Temperature = st.number_input("Temperature (°C)")
+Humidity = st.number_input("Humidity (%)")
 
-    submit = st.form_submit_button("Prediksi")
+submit = st.form_submit_button("Prediksi")
 
 if submit:
-    input_data = np.array([[CO, NO2, SO2, O3, PM10, PM25]])
-    pred = model.predict(input_data)[0]
+    input_data = np.array([[CO, NO2, SO2, O3, PM10, PM25, Temperature, Humidity]])
+pred = model.predict(input_data)[0]
 
-    label_dict = {
+
+label_dict = {
         0: "Baik",
         1: "Sedang",
         2: "Tidak Sehat",
@@ -37,4 +40,4 @@ if submit:
         4: "Berbahaya"
     }
 
-    st.success(f"Hasil Prediksi: {label_dict.get(pred, 'Tidak diketahui')} (Kode: {pred})")
+st.success(f"Hasil Prediksi: {label_dict.get(pred, 'Tidak diketahui')} (Kode: {pred})")
