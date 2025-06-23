@@ -34,4 +34,4 @@ if submit:
         3: "Sangat Tidak Sehat"
     }
 
-    st.success(f"Hasil Prediksi: {label_dict.get(pred, 'Tidak diketahui')}")
+    st.success(f"Hasil Prediksi: {label_dict.get(pred, 'Tidak diketahui')} (Kode: {pred})")
