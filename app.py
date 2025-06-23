@@ -2,20 +2,12 @@ import streamlit as st
 import numpy as np
 import pickle
 
-# Load model LightGBM
-@st.cache_resource
-def load_model():
-    with open("model_lgbm.pkl", "rb") as f:
-        return pickle.load(f)
+# Load model
+with open("model_lgbm.pkl", "rb") as f:
+    model = pickle.load(f)
 
-model = load_model()
-
-# Judul Aplikasi
 st.title("Prediksi Kualitas Udara")
-st.write("Masukkan data sensor untuk prediksi kualitas udara.")
 
-# Form input manual
-# Form input manual
 with st.form("form_input"):
     Temperature = st.number_input("Temperature (°C)", min_value=-10.0, step=0.1)
     Humidity = st.number_input("Humidity (%)", min_value=0.0, max_value=100.0, step=1.0)
@@ -29,22 +21,16 @@ with st.form("form_input"):
 
     submit = st.form_submit_button("Prediksi")
 
-
-
 if submit:
     input_data = np.array([[Temperature, Humidity, PM25, PM10, NO2, SO2, CO, Proximity, Population]])
     pred = model.predict(input_data)[0]
 
-    st.success(f"Hasil Prediksi Kualitas Udara: {pred}")
-
-
-
-label_dict = {
+    # Definisikan label_dict sesuai label model kamu
+    label_dict = {
         0: "Baik",
         1: "Sedang",
         2: "Tidak Sehat",
-        3: "Sangat Tidak Sehat",
-        4: "Berbahaya"
+        3: "Sangat Tidak Sehat"
     }
 
-st.success(f"Hasil Prediksi: {label_dict.get(pred, 'Tidak diketahui')} (Kode: {pred})")
+    st.success(f"Hasil Prediksi: {label_dict.get(pred, 'Tidak diketahui')} (Kode: {pred})")
